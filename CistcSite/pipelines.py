@@ -43,10 +43,12 @@ class MongodbPipeline:
             mongo_db=crawler.settings.get('MONGO_DATABASE', 'items')
         )
 
+    # 插入数据到数据库
     def process_item(self, item, spider):
         self.db.insert_one(item)
         return item
 
+    # 关闭爬虫时调用接口
     def close_process(self, spider):
         self.client.close()
 
@@ -80,7 +82,7 @@ class MysqlPipeline:
             password=crawler.settings.get('MYSQL_PASSWORD')
         )
 
-    # 插入文件到数据库
+    # 插入数据到数据库
     def process_item(self, item, spider):
         self.cursor.execute(
             self.sql % (item['title'], item['dates'])
